@@ -1,9 +1,9 @@
 function z = entropy(x)
 % Compute entropy z=H(x) of a discrete variable x.
 % Input:
-%   x: a integer vectors  
+% x: a integer vectors
 % Output:
-%   z: entropy z=H(x)
+% z: entropy z=H(x)
 % Written by Mo Chen (sth4nth@gmail.com).
 n = numel(x);
 [u,~,x] = unique(x);
@@ -14,14 +14,10 @@ Px = nonzeros(mean(Mx,1));
 Hx = -dot(Px,log2(Px));
 z = max(0,Hx);
 end
-
 function z = jointEntropy(x, y)
 % Compute joint entropy z=H(x,y) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Output:
-%   z: joint entroy z=H(x,y)
-% Written by Mo Chen (sth4nth@gmail.com).    
+% Input: % x, y: two integer vector of the same length
+% Output: % z: joint entroy z=H(x,y)
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -31,18 +27,15 @@ x = x-l+1;
 y = y-l+1;
 k = max(max(x),max(y));
 idx = 1:n;
-p = nonzeros(sparse(idx,x,1,n,k,n)'*sparse(idx,y,1,n,k,n)/n); %joint distribution of x and y
+p = nonzeros(sparse(idx,x,1,n,k,n)'*sparse(idx,y,1,n,k,n)/n); %joint distribution
+of x and y
 z = -dot(p,log2(p));
 z = max(0,z);
 end
-
 function z = condEntropy (x, y)
 % Compute conditional entropy z=H(x|y) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Output:
-%   z: conditional entropy z=H(x|y)
-% Written by Mo Chen (sth4nth@gmail.com).
+% Input: % x, y: two integer vector of the same length
+% Output: % z: conditional entropy z=H(x|y)
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -62,14 +55,10 @@ Hy = -dot(Py,log2(Py));
 z = Hxy-Hy;
 z = max(0,z);
 end
-
 function z = mutInfo(x, y)
 % Compute mutual information I(x,y) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Output:
-%   z: mutual information z=I(x,y)
-% Written by Mo Chen (sth4nth@gmail.com).
+% Input: % x, y: two integer vector of the same length
+% Output: % z: mutual information z=I(x,y)
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -92,14 +81,11 @@ Hy = -dot(Py,log2(Py));
 z = Hx+Hy-Hxy;
 z = max(0,z);
 end
-
 function z = nmi(x, y)
-% Compute normalized mutual information I(x,y)/sqrt(H(x)*H(y)) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Ouput:
-%   z: normalized mutual information z=I(x,y)/sqrt(H(x)*H(y))
-% Written by Mo Chen (sth4nth@gmail.com).
+% Compute normalized mutual information I(x,y)/sqrt(H(x)*H(y)) of two discrete
+variables x and y.
+% Input: % x, y: two integer vector of the same length
+% Ouput: % z: normalized mutual information z=I(x,y)/sqrt(H(x)*H(y))
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -125,14 +111,11 @@ MI = Hx + Hy - Hxy;
 z = sqrt((MI/Hx)*(MI/Hy));
 z = max(0,z);
 end
-
 function z = nvi(x, y)
-% Compute normalized variation information z=(1-I(x,y)/H(x,y)) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Output:
-%   z: normalized variation information z=(1-I(x,y)/H(x,y))
-% Written by Mo Chen (sth4nth@gmail.com).
+% Compute normalized variation information z=(1-I(x,y)/H(x,y)) of two discrete
+variables x and y.
+% Input: % x, y: two integer vector of the same length
+% Output: % z: normalized variation information z=(1-I(x,y)/H(x,y))
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -155,14 +138,11 @@ Hy = -dot(Py,log2(Py));
 z = 2-(Hx+Hy)/Hxy;
 z = max(0,z);
 end
-
 function z = relatEntropy (x, y)
-% Compute relative entropy (a.k.a KL divergence) z=KL(p(x)||p(y)) of two discrete variables x and y.
-% Input:
-%   x, y: two integer vector of the same length 
-% Output:
-%   z: relative entropy (a.k.a KL divergence) z=KL(p(x)||p(y))
-% Written by Mo Chen (sth4nth@gmail.com).    
+% Compute relative entropy (a.k.a KL divergence) z=KL(p(x)||p(y)) of two discrete
+variables x and y.
+% Input: % x, y: two integer vector of the same length
+% Output: % z: relative entropy (a.k.a KL divergence) z=KL(p(x)||p(y))
 assert(numel(x) == numel(y));
 n = numel(x);
 x = reshape(x,1,n);
@@ -179,13 +159,11 @@ Py = nonzeros(mean(My,1));
 z = -dot(Px,log2(Py)-log2(Px));
 z = max(0,z);
 end
-
-
-k = 10;  % variable range
-n = 100;  % number of variables
+k = 10; % variable range
+n = 100; % number of variables
 x = ceil(k*rand(1,n));
 y = ceil(k*rand(1,n));
-% x = randi(k,1,n);  % need statistics toolbox
+% x = randi(k,1,n); % need statistics toolbox
 % y = randi(k,1,n);
 %% Entropy H(x), H(y)
 Hx = entropy(x);
@@ -203,12 +181,19 @@ nIxy = nmi(x,y);
 %% Nomalized variation information I_v(x,y)
 vIxy = nvi(x,y);
 %% H(x|y) = H(x,y)-H(y)
-isequalf(Hx_y,Hxy-Hy)
+isequal(Hx_y,Hxy-Hy)
 %% I(x,y) = H(x)-H(x|y)
-isequalf(Ixy,Hx-Hx_y)
+isequal(Ixy,Hx-Hx_y)
 %% I(x,y) = H(x)+H(y)-H(x,y)
-isequalf(Ixy,Hx+Hy-Hxy)
+isequal(Ixy,Hx+Hy-Hxy)
 %% I_n(x,y) = I(x,y)/sqrt(H(x)*H(y))
-isequalf(nIxy,Ixy/sqrt(Hx*Hy))
+isequal(nIxy,Ixy/sqrt(Hx*Hy))
 %% I_v(x,y) = (1-I(x,y)/H(x,y))
-isequalf(vIxy,1-Ixy/Hxy)
+isequal(vIxy,1-Ixy/Hxy)
+disp('=====')
+disp(Hxy)
+disp(Hx_y)
+disp(Ixy)
+disp(Dxy)
+disp(nIxy)
+disp(vIxy)
